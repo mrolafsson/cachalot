@@ -70,7 +70,7 @@ public class CacheInterceptor implements MethodInterceptor {
 		twigkit.cachalot.Cache conf = (twigkit.cachalot.Cache) invocation.getMethod().getAnnotation(twigkit.cachalot.Cache.class);
 
 		/*
-		 * Get a cache that corresponds to the annotation's parameters
+		 * Get a cache that corresponds to the annotation elements
 		 */
 		Cache cache = getCache(conf);
 
@@ -121,8 +121,8 @@ public class CacheInterceptor implements MethodInterceptor {
 		Cache cache = cacheManager.getCache(conf.name());
 
 		/*
-		 * If no cache is found, then create a memory one based on the annotation's
-		 * attributes.
+		 * If no cache is found, then create a memory one based on the annotation
+		 * elements
 		 */
 		if (cache == null) {
 			cache = new Cache(conf.name(), conf.maxElementsInMemory(), conf.overflowToDisk(), conf.eternal(), conf.timeToLiveSeconds(), conf.timeToIdleSeconds(), conf.diskPersistent(), conf.diskExpiryThreadIntervalSeconds());
