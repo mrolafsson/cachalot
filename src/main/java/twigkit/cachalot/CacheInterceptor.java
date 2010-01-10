@@ -23,6 +23,8 @@ import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Intercepts calls to methods that are annotated with {@link Cache} and returns
@@ -36,9 +38,11 @@ import org.aopalliance.intercept.MethodInvocation;
  */
 public class CacheInterceptor implements MethodInterceptor {
 
+	private static Logger logger = LoggerFactory.getLogger(CacheInterceptor.class);
 	private CacheManager cacheManager;
 
-	public CacheInterceptor() {}
+	public CacheInterceptor() {
+	}
 
 	/**
 	 * Instantiate the CacheInterceptor with a {@link net.sf.ehcache.CacheManager}
@@ -78,6 +82,9 @@ public class CacheInterceptor implements MethodInterceptor {
 			Element cacheElement = cache.get(key);
 
 			if (cacheElement != null && cacheElement.getValue() != null) {
+				if (logger.isDebugEnabled()) {
+					logger.debug("Call to [" + invocation.getMethod().getName() + "] returns cached value [" + key + " > " + cacheElement.getValue() + "]");
+				}
 				return cacheElement.getValue();
 			}
 		}
@@ -92,6 +99,9 @@ public class CacheInterceptor implements MethodInterceptor {
 		 * of the method's arguments as a key
 		 */
 		if (cache != null && returnValue != null) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Invoked [" + invocation.getMethod().getName() + "] caching return value [" + key + " > " + returnValue + "]");
+			}
 			cache.put(new Element(key, returnValue));
 		}
 
@@ -128,7 +138,7 @@ public class CacheInterceptor implements MethodInterceptor {
 	 * @param arguments Arguments passed to the method being cached
 	 * @return A suitable lookup key for the cache
 	 */
-	private Object getKey( Object[] arguments ) {
+	private Object getKey(Object[] arguments) {
 		return Arrays.deepHashCode(arguments);
 	}
 
