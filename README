@@ -45,10 +45,9 @@ CONFIGURATION
 
 Cache Annotation
 	
-	Usage:
-	@Cache(name=“cache-name”", maxElementsInMemory=10, timeToLiveSeconds=60, timeToIdleSeconds=45)
+	Usage: @Cache(name=“cache-name”", maxElementsInMemory=10, timeToLiveSeconds=60, timeToIdleSeconds=45)
 	
-	Available Elements
+	Available Elements:
 	
 	name (String, required)
 	Name of the cache. Note that "default" is a reserved name.
