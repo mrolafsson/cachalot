@@ -36,7 +36,7 @@ Installation
 Usage
 -----
 
-Just add the @Cache annotation to the methods you would like to cache access to. That's it!
+Just add the **@Cache** annotation to the methods you would like to cache access to. That's it!
 
 	@Cache(name=“cache-name”", maxElementsInMemory=10, timeToLiveSeconds=60, timeToIdleSeconds=45)
 	public String getValueWithOneArgument( String arg ) {
