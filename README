@@ -1,7 +1,11 @@
-Cachalot provides annotations to intercept access to methods in Guice managed classes, and return cached values rather than invoking the annotated method. If a cached return value is not found for the arguments in the method call, then the method is invoked and the return value cached.
+Cache Java method calls and return values with Guice/AOP
+
+Cachalot provides a single annotation to intercept access to methods in Guice managed classes, and return cached values rather than invoking the annotated method. If a cached return value is not found for the arguments in the method call, then the method is invoked and the return value cached. No XML configuration files or boilerplate code.
+
 Cachalot uses Ehcache, which can be configured using the annotation elements.
 
-Installation
+INSTALLATION
+
 1. Add the cachalot-{version}.jar to your projects classpath. If you use Maven to manage your dependencies use add the following to your POM.xml:
 
 	<dependency>
