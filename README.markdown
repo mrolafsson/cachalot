@@ -8,7 +8,6 @@ Cachalot provides a single annotation to intercept calls to methods in Guice man
 Cachalot uses Ehcache, which can be configured using the annotation elements. 
 
 
-
 Installation
 ------------
 
@@ -45,7 +44,6 @@ Just add the @Cache annotation to the methods you would like to cache access to.
 		…
 		return value;
 	}
-
 
 
 Reference
