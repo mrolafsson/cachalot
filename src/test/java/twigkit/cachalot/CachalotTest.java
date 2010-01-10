@@ -18,6 +18,8 @@ package twigkit.cachalot;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Module;
+import com.google.inject.util.Modules;
 import java.util.Date;
 import net.sf.ehcache.CacheManager;
 import org.junit.After;
@@ -37,8 +39,10 @@ public class CachalotTest {
 
 	@Before
 	public void setUpClass() throws Exception {
-		injector = Guice.createInjector( new CachalotTestModule() );
-		cacheManager = injector.getInstance(CachalotTestModule.class).getCacheManager();
+		Module testModule = Modules.override(new CachalotModule()).with(new CachalotTestModule());
+		injector = Guice.createInjector(testModule);
+		
+		cacheManager = injector.getInstance(CachalotModule.class).getCacheManager();
 	}
 
 	@After
@@ -54,6 +58,7 @@ public class CachalotTest {
 		String arg = "arg";
 		assertEquals("Return value for single argument is incorrect (invocation)", mct.getString(arg), "single-argument");
 		assertEquals("Invocation count not incremented even though method should have been invoked", 1, mct.getInvocationCount());
+
 		assertEquals("Return value for single argument is incorrect (cached)", mct.getString(arg), "single-argument");
 		assertEquals("Invocation count changed even though method should not have been invoked", 1, mct.getInvocationCount());
 	}
@@ -68,6 +73,7 @@ public class CachalotTest {
 		
 		assertEquals("Return value for multiple arguments is incorrect (invocation)", mct.getString(arg0, arg1, arg2), "multiple-arguments");
 		assertEquals("Invocation count not incremented even though method should have been invoked", 1, mct.getInvocationCount());
+
 		assertEquals("Return value for multiple arguments is incorrect (cached)", mct.getString(arg0, arg1, arg2), "multiple-arguments");
 		assertEquals("Invocation count changed even though method should not have been invoked", 1, mct.getInvocationCount());
 	}

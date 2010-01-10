@@ -16,18 +16,18 @@
  */
 package twigkit.cachalot;
 
+import com.google.inject.AbstractModule;
+
 /**
  * A mock {@link CachalotModule} that binds the {@link CachedMethods} class to
  * test the {@link Cache} annotation.
  * 
  * @author mr.olafsson
  */
-public class CachalotTestModule extends CachalotModule {
+public class CachalotTestModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		super.configure();
-
 		bind(CachedMethods.class);
 	}
 }
