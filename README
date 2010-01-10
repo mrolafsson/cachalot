@@ -1,0 +1,35 @@
+Cachalot provides annotations to intercept access to methods in Guice managed classes, and return cached values rather than invoking the annotated method. If a cached return value is not found for the arguments in the method call, then the method is invoked and the return value cached.
+Cachalot uses Ehcache, which can be configured using the annotation elements.
+
+Installation
+1. Add the cachalot-{version}.jar to your projects classpath. If you use Maven to manage your dependencies use add the following to your POM.xml:
+
+	<dependency>
+		<groupId>twigkit</groupId>
+		<artifactId>cachalot</artifactId>
+		<version>{version}</version>
+	</dependency>
+
+
+2. Add the CachalotModule when you create your Injector:
+
+	public static void main(String[] args) {
+		Injector injector = Guice.createInjector(new CachalotModule(), new BillingModule());
+		BillingService billingService = injector.getInstance(BillingService.class);
+		...
+	}
+
+Cachalot provides a META-INF/services descriptor in the .jar so if you're using the Java 6 ServiceLoader to dynamically add any Guice Modules on your classpath it should work out of the box. This is how we create our Injector in TwigKit:
+ServiceLoader<Module> modules = ServiceLoader.load(Module.class);
+Guice.createInjector(modules);
+
+
+3. Add the @Cache annotation to the methods you would like to cache access to:
+
+	@Cache(name=“cache-name”", maxElementsInMemory=10, timeToLiveSeconds=60, timeToIdleSeconds=45)
+	public String getValueWithOneArgument( String arg ) {
+		…
+		return value;
+	}
+
+For a full list of parameters check the wiki: http://wiki.github.com/mrolafsson/cachalot
