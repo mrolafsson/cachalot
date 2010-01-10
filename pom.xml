@@ -7,7 +7,21 @@
 	<version>0.5-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>cachalot</name>
-	<description>Annotation to cache access to methods, and skip invocation for cached return value.</description>
+	<description>Guice/AOP annotation to cache access to methods, and skip invocation for cached return value.</description>
+
+	<url>http://github.com/mrolafsson/cachalot</url>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>http://github.com/mrolafsson/cachalot</url>
+	</scm>
 
 	<organization>
 		<name>TwigKit</name>
@@ -61,7 +75,7 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.5.9-RC0</version>
 		</dependency>
-		
+
 		<!-- Unit Testing -->
 		<dependency>
 			<groupId>junit</groupId>
