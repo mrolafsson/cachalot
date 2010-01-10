@@ -24,7 +24,6 @@ Installation
 	
 		public static void main(String[] args) {
 			Injector injector = Guice.createInjector(new YourGuiceModule(), new CachalotModule());
-			BillingService billingService = injector.getInstance(BillingService.class);
 			...
 		}
 
@@ -57,7 +56,7 @@ Reference
 	
 *	*Available Elements*
 	
-	*	**name** (String, required)
+	*	**name** (String, *required*)
 		
 		Name of the cache. Note that "default" is a reserved name.
 
