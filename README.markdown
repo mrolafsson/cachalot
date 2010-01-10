@@ -53,7 +53,7 @@ Reference
 
 *	*Usage*
 
-		@Cache(name="cache-name", [ maxElementsInMemory=10, timeToLiveSeconds=60, timeToIdleSeconds=45 ... ] )
+		@Cache(name='cache-name', [ maxElementsInMemory=10, timeToLiveSeconds=60, timeToIdleSeconds=45 ... ] )
 	
 *	*Available Elements*
 	
