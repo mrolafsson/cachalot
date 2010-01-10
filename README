@@ -24,8 +24,9 @@ INSTALLATION
 	}
 
 Cachalot provides a META-INF/services descriptor in the .jar so if you're using the Java 6 ServiceLoader to dynamically add any Guice Modules on your classpath it should work out of the box. This is how we create our Injector in TwigKit:
-ServiceLoader<Module> modules = ServiceLoader.load(Module.class);
-Guice.createInjector(modules);
+
+	ServiceLoader<Module> modules = ServiceLoader.load(Module.class);
+	Guice.createInjector(modules);
 
 
 3. Add the @Cache annotation to the methods you would like to cache access to:
