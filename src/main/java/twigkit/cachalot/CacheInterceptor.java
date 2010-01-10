@@ -25,7 +25,7 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
 /**
- * Intercepts calls to methods that are annotated with {@link Cached} and returns
+ * Intercepts calls to methods that are annotated with {@link Cache} and returns
  * the value that corresponds to the method's parameters without invoking it.
  *
  * If the cache does not have a value that corresponds to the method parameters
@@ -63,7 +63,7 @@ public class CacheInterceptor implements MethodInterceptor {
 		/*
 		 * Get the Cached annotation
 		 */
-		Cached conf = (Cached) invocation.getMethod().getAnnotation(Cached.class);
+		twigkit.cachalot.Cache conf = (twigkit.cachalot.Cache) invocation.getMethod().getAnnotation(twigkit.cachalot.Cache.class);
 
 		/*
 		 * Get a cache that corresponds to the annotation's parameters
@@ -104,7 +104,7 @@ public class CacheInterceptor implements MethodInterceptor {
 	 * @param conf The Cached annotation used for the target method
 	 * @return A Cache instance to lookup the return value
 	 */
-	private Cache getCache(Cached conf) {
+	private Cache getCache(twigkit.cachalot.Cache conf) {
 		/*
 		 * Look for a cache based on the annotations's name attribute
 		 */

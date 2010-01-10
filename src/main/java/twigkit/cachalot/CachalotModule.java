@@ -23,7 +23,7 @@ import net.sf.ehcache.CacheManager;
 
 /**
  * The Cachalot module instantiates the cache, and decorates all methods annotated
- * with the {@link Cached} annotation with the a {@link CacheInterceptor}.
+ * with the {@link Cache} annotation with the a {@link CacheInterceptor}.
  *
  * @author mr.olafsson
  */
@@ -34,7 +34,7 @@ public class CachalotModule extends AbstractModule {
 		CacheInterceptor ci = new CacheInterceptor();
 		requestInjection(ci);
 		
-		bindInterceptor(Matchers.any(), Matchers.annotatedWith(Cached.class), ci);
+		bindInterceptor(Matchers.any(), Matchers.annotatedWith(Cache.class), ci);
 	}
 
 	@Provides

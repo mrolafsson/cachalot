@@ -18,7 +18,7 @@ package twigkit.cachalot;
 
 /**
  * A mock {@link CachalotModule} that binds the {@link CachedMethods} class to
- * test the {@link Cached} annotation.
+ * test the {@link Cache} annotation.
  * 
  * @author mr.olafsson
  */

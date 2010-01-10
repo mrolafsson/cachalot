@@ -19,7 +19,7 @@ package twigkit.cachalot;
 import java.util.Date;
 
 /**
- * The CachedMethods class has methods that are annotated with the {@link Cached}
+ * The CachedMethods class has methods that are annotated with the {@link Cache}
  * annotation to test caching of return values.
  * 
  * @author mr.olafsson
@@ -34,7 +34,7 @@ public class CachedMethods {
 	 * @param arg
 	 * @return
 	 */
-	@Cached(name="single-argument", maxElementsInMemory=10, timeToLiveSeconds=60, timeToIdleSeconds=45)
+	@Cache(name="single-argument", maxElementsInMemory=10, timeToLiveSeconds=60, timeToIdleSeconds=45)
 	public String getString( String arg ) {
 		invocationCount++;
 
@@ -50,7 +50,7 @@ public class CachedMethods {
 	 * @param arg3
 	 * @return
 	 */
-	@Cached(name="multiple-arguments", maxElementsInMemory=10, timeToLiveSeconds=60, timeToIdleSeconds=45)
+	@Cache(name="multiple-arguments", maxElementsInMemory=10, timeToLiveSeconds=60, timeToIdleSeconds=45)
 	public String getString( String arg, int arg2, Date arg3 ) {
 		invocationCount++;
 
