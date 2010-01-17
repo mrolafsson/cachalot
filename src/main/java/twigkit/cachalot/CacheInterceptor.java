@@ -17,6 +17,7 @@
 package twigkit.cachalot;
 
 import com.google.inject.Inject;
+import java.io.Serializable;
 import java.util.Arrays;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
@@ -81,11 +82,23 @@ public class CacheInterceptor implements MethodInterceptor {
 		if (cache != null) {
 			Element cacheElement = cache.get(key);
 
-			if (cacheElement != null && cacheElement.getValue() != null) {
+			if (cacheElement != null) {
 				if (logger.isDebugEnabled()) {
-					logger.debug("Call to [" + invocation.getMethod().getName() + "] returns cached value [" + key + " > " + cacheElement.getValue() + "]");
+					logger.debug("Call to [" + invocation.getMethod().getName() + "] returns cached value for key [" + key + "]");
 				}
-				return cacheElement.getValue();
+				// Handling non-serializable objects if possible
+				if (cacheElement.isSerializable()) {
+					Object v = cacheElement.getValue();
+					if (v != null) {
+						return v;
+					}
+				} else if (!conf.diskPersistent()) {
+					Object v = cacheElement.getObjectValue();
+					if (v != null) {
+						return v;
+					}
+				}
+
 			}
 		}
 
@@ -93,16 +106,27 @@ public class CacheInterceptor implements MethodInterceptor {
 		 * If no cached value is found, invoke the method
 		 */
 		Object returnValue = invocation.proceed();
+		if (logger.isDebugEnabled()) {
+			logger.debug("Invoked [" + invocation.getMethod().getName() + "]");
+		}
 
 		/*
 		 * If a cache was found, then add the return value to it with the hashcode
 		 * of the method's arguments as a key
 		 */
 		if (cache != null && returnValue != null) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Invoked [" + invocation.getMethod().getName() + "] caching return value [" + key + " > " + returnValue + "]");
+			Element e = new Element(key, returnValue);
+
+			if (e.isSerializable() || !conf.diskPersistent()) {
+				if (logger.isDebugEnabled()) {
+					logger.debug("Caching return value [" + key + " > " + returnValue + "]");
+				}
+				cache.put(new Element(key, returnValue));
+			} else {
+				if (logger.isDebugEnabled()) {
+					logger.debug("Return value could not be cached - not serializable and attempting to persist to disk");
+				}
 			}
-			cache.put(new Element(key, returnValue));
 		}
 
 		return returnValue;
