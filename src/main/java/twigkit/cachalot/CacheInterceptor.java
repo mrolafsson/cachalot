@@ -17,8 +17,6 @@
 package twigkit.cachalot;
 
 import com.google.inject.Inject;
-import java.io.Serializable;
-import java.util.Arrays;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -26,6 +24,7 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Arrays;
 
 /**
  * Intercepts calls to methods that are annotated with {@link Cache} and returns
@@ -39,7 +38,7 @@ import org.slf4j.LoggerFactory;
  */
 public class CacheInterceptor implements MethodInterceptor {
 
-	private static Logger logger = LoggerFactory.getLogger(CacheInterceptor.class);
+	private static final Logger logger = LoggerFactory.getLogger(CacheInterceptor.class);
 	private CacheManager cacheManager;
 
 	public CacheInterceptor() {
@@ -133,7 +132,7 @@ public class CacheInterceptor implements MethodInterceptor {
 	}
 
 	/**
-	 * Get a Cache instance based on the {@link Cached} annotion parameters.
+	 * Get a Cache instance based on the {@link Cache} annotion parameters.
 	 * 
 	 * @param conf The Cached annotation used for the target method
 	 * @return A Cache instance to lookup the return value
@@ -163,7 +162,11 @@ public class CacheInterceptor implements MethodInterceptor {
 	 * @return A suitable lookup key for the cache
 	 */
 	private Object getKey(Object[] arguments) {
-		return Arrays.deepHashCode(arguments);
+		if (arguments.length == 1 && arguments[0] instanceof String) {
+			return arguments[0];
+		} else {
+			return Arrays.deepHashCode(arguments);
+		}
 	}
 
 	@Inject
