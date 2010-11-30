@@ -37,18 +37,18 @@ public @interface Cache {
 
 	String name();
 
-	int maxElementsInMemory() default(3000);
+	int maxElementsInMemory() default 3000;
 
-	boolean overflowToDisk() default(false);
+	boolean overflowToDisk() default false;
 
-	boolean eternal() default(false);
+	boolean eternal() default false;
 
-	long timeToLiveSeconds() default(120);
+	long timeToLiveSeconds() default 120;
 
-	long timeToIdleSeconds() default(100);
+	long timeToIdleSeconds() default 100;
 
-	boolean diskPersistent() default(false);
+	boolean diskPersistent() default false;
 
-	long diskExpiryThreadIntervalSeconds() default(120);
+	long diskExpiryThreadIntervalSeconds() default 120;
 	
 }

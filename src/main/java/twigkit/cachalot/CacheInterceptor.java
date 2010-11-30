@@ -24,16 +24,17 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.util.Arrays;
 
 /**
  * Intercepts calls to methods that are annotated with {@link Cache} and returns
  * the value that corresponds to the method's parameters without invoking it.
- *
+ * <p/>
  * If the cache does not have a value that corresponds to the method parameters
  * then the method is invoked, and the return value cached before returning it
  * to the caller.
- * 
+ *
  * @author mr.olafsson
  */
 public class CacheInterceptor implements MethodInterceptor {
@@ -47,6 +48,7 @@ public class CacheInterceptor implements MethodInterceptor {
 	/**
 	 * Instantiate the CacheInterceptor with a {@link net.sf.ehcache.CacheManager}
 	 * instance.
+	 *
 	 * @param cacheManager
 	 */
 	public CacheInterceptor(CacheManager cacheManager) {
@@ -59,6 +61,12 @@ public class CacheInterceptor implements MethodInterceptor {
 	 * @throws Throwable
 	 */
 	public Object invoke(MethodInvocation invocation) throws Throwable {
+		long start = 0;
+
+		if (logger.isDebugEnabled()) {
+			start = System.currentTimeMillis();
+		}
+
 		/*
 		 * Get a suitable key based on the method's arguments
 		 */
@@ -89,11 +97,17 @@ public class CacheInterceptor implements MethodInterceptor {
 				if (cacheElement.isSerializable()) {
 					Object v = cacheElement.getValue();
 					if (v != null) {
+						if (logger.isDebugEnabled()) {
+							logger.debug("Call to [" + invocation.getMethod().getName() + "] returned cached value in " + (System.currentTimeMillis() - start) + " ms.");
+						}
 						return v;
 					}
 				} else if (!conf.diskPersistent()) {
 					Object v = cacheElement.getObjectValue();
 					if (v != null) {
+						if (logger.isDebugEnabled()) {
+							logger.debug("Call to [" + invocation.getMethod().getName() + "] returned cached value in " + (System.currentTimeMillis() - start) + " ms.");
+						}
 						return v;
 					}
 				}
@@ -128,12 +142,15 @@ public class CacheInterceptor implements MethodInterceptor {
 			}
 		}
 
+		if (logger.isDebugEnabled()) {
+			logger.debug("Call to [" + invocation.getMethod().getName() + "] returned invoked value in " + (System.currentTimeMillis() - start) + " ms.");
+		}
 		return returnValue;
 	}
 
 	/**
 	 * Get a Cache instance based on the {@link Cache} annotion parameters.
-	 * 
+	 *
 	 * @param conf The Cached annotation used for the target method
 	 * @return A Cache instance to lookup the return value
 	 */
