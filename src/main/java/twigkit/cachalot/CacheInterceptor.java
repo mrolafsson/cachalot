@@ -182,10 +182,7 @@ public class CacheInterceptor implements MethodInterceptor {
                 configuration.setMaxEntriesLocalHeap(conf.maxElementsInMemory());
             }
             if (conf.overflowToDisk()) {
-                configuration.setOverflowToDisk(true);
-            }
-            if (conf.eternal()) {
-                configuration.setEternal(true);
+
             }
             if (conf.timeToLiveSeconds() > -1) {
                 configuration.setTimeToLiveSeconds(conf.timeToLiveSeconds());
@@ -193,9 +190,12 @@ public class CacheInterceptor implements MethodInterceptor {
             if (conf.timeToIdleSeconds() > -1) {
                 configuration.setTimeToIdleSeconds(conf.timeToIdleSeconds());
             }
-            if (conf.diskPersistent()) {
-                configuration.setDiskPersistent(true);
-            }
+
+            configuration.setEternal(conf.eternal());
+            configuration.setDiskPersistent(conf.diskPersistent());
+            configuration.setOverflowToDisk(conf.overflowToDisk());
+            logger.debug(configuration.isOverflowToDisk() + "");
+
             if (conf.diskExpiryThreadIntervalSeconds() > -1) {
                 configuration.setDiskExpiryThreadIntervalSeconds(conf.diskExpiryThreadIntervalSeconds());
             }

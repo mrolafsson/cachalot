@@ -91,6 +91,18 @@ public class CachalotTest {
     }
 
     @Test
+    public void singleArgumentNonSerializableTest() {
+        CachedMethods mct = injector.getInstance(CachedMethods.class);
+
+        String arg = "arg";
+        assertEquals("Return value for single argument is incorrect (invocation)", mct.getNonSerializable(1), new CachedMethods.NonSerializable(1));
+        assertEquals("Invocation count not incremented even though method should have been invoked", 1, mct.getInvocationCount());
+
+        assertEquals("Return value for single argument is incorrect (cached)", mct.getNonSerializable(1), new CachedMethods.NonSerializable(1));
+        assertEquals("Invocation count changed even though method should not have been invoked", 1, mct.getInvocationCount());
+    }
+
+    @Test
     public void multipleArgumentTest() {
         CachedMethods mct = injector.getInstance(CachedMethods.class);
 

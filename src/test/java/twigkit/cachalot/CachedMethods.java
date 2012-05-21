@@ -61,6 +61,13 @@ public class CachedMethods {
         return "single-argument";
     }
 
+    @Cache(diskPersistent = false)
+    public Object getNonSerializable(int number) {
+        invocationCount++;
+
+        return new NonSerializable(number);
+    }
+
     /**
      * A method that takes multiple arguments including primitives and objects to
      * test caching where the cache key is created from the array of these.
@@ -84,5 +91,31 @@ public class CachedMethods {
      */
     public int getInvocationCount() {
         return invocationCount;
+    }
+
+    public static class NonSerializable {
+
+        private int number;
+
+        public NonSerializable(int number) {
+            this.number = number;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            NonSerializable that = (NonSerializable) o;
+
+            if (number != that.number) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            return number;
+        }
     }
 }
