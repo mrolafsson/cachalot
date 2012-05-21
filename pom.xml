@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>twigkit</groupId>
     <artifactId>cachalot</artifactId>
-    <version>0.8</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
     <name>cachalot</name>
     <description>Guice/AOP annotation to cache access to methods, and skip invocation for cached return value.
@@ -102,19 +102,19 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.5.9-RC0</version>
+            <version>1.6.1</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>1.5.9-RC0</version>
+            <version>1.6.1</version>
         </dependency>
 
         <!-- Unit Testing -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.7</version>
+            <version>4.8.2</version>
             <scope>test</scope>
         </dependency>
 
@@ -129,7 +129,7 @@
         <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache-core</artifactId>
-            <version>2.3.0</version>
+            <version>2.5.2</version>
         </dependency>
     </dependencies>
 </project>

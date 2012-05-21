@@ -20,61 +20,88 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
+
 import java.util.Date;
+
 import net.sf.ehcache.CacheManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
  * Unit tests for the Cachalot method caching.
- * 
+ *
  * @author mr.olafsson
  */
 public class CachalotTest {
 
-	private Injector injector;
-	private CacheManager cacheManager;
+    private Injector injector;
+    private CacheManager cacheManager;
 
-	@Before
-	public void setUpClass() throws Exception {
-		Module testModule = Modules.override(new CachalotModule()).with(new CachalotTestModule());
-		injector = Guice.createInjector(testModule);
-		
-		cacheManager = injector.getInstance(CachalotModule.class).getCacheManager();
-	}
+    @Before
+    public void setUpClass() throws Exception {
+        Module testModule = Modules.override(new CachalotModule()).with(new CachalotTestModule());
+        injector = Guice.createInjector(testModule);
 
-	@After
-	public void tearDownClass() throws Exception {
-		cacheManager.clearAll();
-		cacheManager.shutdown();
-	}
+        cacheManager = injector.getInstance(CachalotModule.class).getCacheManager();
+    }
 
-	@Test
-	public void singleArgumentTest() {
-		CachedMethods mct = injector.getInstance(CachedMethods.class);
+    @After
+    public void tearDownClass() throws Exception {
+        cacheManager.clearAll();
+        cacheManager.shutdown();
+    }
 
-		String arg = "arg";
-		assertEquals("Return value for single argument is incorrect (invocation)", mct.getString(arg), "single-argument");
-		assertEquals("Invocation count not incremented even though method should have been invoked", 1, mct.getInvocationCount());
+    @Test
+    public void singleArgumentTest() {
+        CachedMethods mct = injector.getInstance(CachedMethods.class);
 
-		assertEquals("Return value for single argument is incorrect (cached)", mct.getString(arg), "single-argument");
-		assertEquals("Invocation count changed even though method should not have been invoked", 1, mct.getInvocationCount());
-	}
+        String arg = "arg";
+        assertEquals("Return value for single argument is incorrect (invocation)", mct.getString(arg), "single-argument");
+        assertEquals("Invocation count not incremented even though method should have been invoked", 1, mct.getInvocationCount());
 
-	@Test
-	public void multipleArgumentTest() {
-		CachedMethods mct = injector.getInstance(CachedMethods.class);
+        assertEquals("Return value for single argument is incorrect (cached)", mct.getString(arg), "single-argument");
+        assertEquals("Invocation count changed even though method should not have been invoked", 1, mct.getInvocationCount());
+    }
 
-		String arg0 = "arg0";
-		int arg1 = 100;
-		Date arg2 = new Date();
-		
-		assertEquals("Return value for multiple arguments is incorrect (invocation)", mct.getString(arg0, arg1, arg2), "multiple-arguments");
-		assertEquals("Invocation count not incremented even though method should have been invoked", 1, mct.getInvocationCount());
+    @Test
+    public void singleArgumentFileConfiguredTest() {
+        CachedMethods mct = injector.getInstance(CachedMethods.class);
 
-		assertEquals("Return value for multiple arguments is incorrect (cached)", mct.getString(arg0, arg1, arg2), "multiple-arguments");
-		assertEquals("Invocation count changed even though method should not have been invoked", 1, mct.getInvocationCount());
-	}
+        String arg = "arg";
+        assertEquals("Return value for single argument is incorrect (invocation)", mct.getStringFileConfigured(arg), "single-argument");
+        assertEquals("Invocation count not incremented even though method should have been invoked", 1, mct.getInvocationCount());
+
+        assertEquals("Return value for single argument is incorrect (cached)", mct.getStringFileConfigured(arg), "single-argument");
+        assertEquals("Invocation count changed even though method should not have been invoked", 1, mct.getInvocationCount());
+    }
+
+    @Test
+    public void singleArgumentNoNameTest() {
+        CachedMethods mct = injector.getInstance(CachedMethods.class);
+
+        String arg = "arg";
+        assertEquals("Return value for single argument is incorrect (invocation)", mct.getStringDefaultNoName(arg), "single-argument");
+        assertEquals("Invocation count not incremented even though method should have been invoked", 1, mct.getInvocationCount());
+
+        assertEquals("Return value for single argument is incorrect (cached)", mct.getStringDefaultNoName(arg), "single-argument");
+        assertEquals("Invocation count changed even though method should not have been invoked", 1, mct.getInvocationCount());
+    }
+
+    @Test
+    public void multipleArgumentTest() {
+        CachedMethods mct = injector.getInstance(CachedMethods.class);
+
+        String arg0 = "arg0";
+        int arg1 = 100;
+        Date arg2 = new Date();
+
+        assertEquals("Return value for multiple arguments is incorrect (invocation)", mct.getString(arg0, arg1, arg2), "multiple-arguments");
+        assertEquals("Invocation count not incremented even though method should have been invoked", 1, mct.getInvocationCount());
+
+        assertEquals("Return value for multiple arguments is incorrect (cached)", mct.getString(arg0, arg1, arg2), "multiple-arguments");
+        assertEquals("Invocation count changed even though method should not have been invoked", 1, mct.getInvocationCount());
+    }
 }

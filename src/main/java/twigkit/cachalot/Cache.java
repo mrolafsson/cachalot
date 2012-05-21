@@ -35,20 +35,20 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Cache {
 
-	String name();
+	String name() default "";
 
-	int maxElementsInMemory() default 3000;
+	int maxElementsInMemory() default -1;
 
 	boolean overflowToDisk() default false;
 
 	boolean eternal() default false;
 
-	long timeToLiveSeconds() default 120;
+	long timeToLiveSeconds() default -1;
 
-	long timeToIdleSeconds() default 100;
+	long timeToIdleSeconds() default -1;
 
 	boolean diskPersistent() default false;
 
-	long diskExpiryThreadIntervalSeconds() default 120;
+	long diskExpiryThreadIntervalSeconds() default -1;
 	
 }

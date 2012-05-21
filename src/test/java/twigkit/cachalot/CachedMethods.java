@@ -21,48 +21,68 @@ import java.util.Date;
 /**
  * The CachedMethods class has methods that are annotated with the {@link Cache}
  * annotation to test caching of return values.
- * 
+ *
  * @author mr.olafsson
  */
 public class CachedMethods {
 
-	private int invocationCount = 0;
+    private int invocationCount = 0;
 
-	/**
-	 * A method with a single argument to test caching with simple keys.
-	 * 
-	 * @param arg
-	 * @return
-	 */
-	@Cache(name="single-argument", maxElementsInMemory=10, timeToLiveSeconds=60, timeToIdleSeconds=45)
-	public String getString( String arg ) {
-		invocationCount++;
+    /**
+     * A method with a single argument to test caching with simple keys.
+     *
+     * @param arg
+     * @return
+     */
+    @Cache(name = "single-argument", maxElementsInMemory = 10, timeToLiveSeconds = 60, timeToIdleSeconds = 45)
+    public String getString(String arg) {
+        invocationCount++;
 
-		return "single-argument";
-	}
+        return "single-argument";
+    }
 
-	/**
-	 * A method that takes multiple arguments including primitives and objects to
-	 * test caching where the cache key is created from the array of these.
-	 * 
-	 * @param arg
-	 * @param arg2
-	 * @param arg3
-	 * @return
-	 */
-	@Cache(name="multiple-arguments", maxElementsInMemory=10, timeToLiveSeconds=60, timeToIdleSeconds=45)
-	public String getString( String arg, int arg2, Date arg3 ) {
-		invocationCount++;
+    /**
+     * A method with a single argument to test caching with simple keys.
+     *
+     * @param arg
+     * @return
+     */
+    @Cache(name = "file-configured")
+    public String getStringFileConfigured(String arg) {
+        invocationCount++;
 
-		return "multiple-arguments";
-	}
+        return "single-argument";
+    }
 
-	/**
-	 * Get the number of times these methods have been invoked.
-	 * 
-	 * @return
-	 */
-	public int getInvocationCount() {
-		return invocationCount;
-	}
+    @Cache
+    public String getStringDefaultNoName(String arg) {
+        invocationCount++;
+
+        return "single-argument";
+    }
+
+    /**
+     * A method that takes multiple arguments including primitives and objects to
+     * test caching where the cache key is created from the array of these.
+     *
+     * @param arg
+     * @param arg2
+     * @param arg3
+     * @return
+     */
+    @Cache(name = "multiple-arguments", maxElementsInMemory = 10, timeToLiveSeconds = 60, timeToIdleSeconds = 45)
+    public String getString(String arg, int arg2, Date arg3) {
+        invocationCount++;
+
+        return "multiple-arguments";
+    }
+
+    /**
+     * Get the number of times these methods have been invoked.
+     *
+     * @return
+     */
+    public int getInvocationCount() {
+        return invocationCount;
+    }
 }
