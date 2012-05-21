@@ -194,7 +194,6 @@ public class CacheInterceptor implements MethodInterceptor {
             configuration.setEternal(conf.eternal());
             configuration.setDiskPersistent(conf.diskPersistent());
             configuration.setOverflowToDisk(conf.overflowToDisk());
-            logger.debug(configuration.isOverflowToDisk() + "");
 
             if (conf.diskExpiryThreadIntervalSeconds() > -1) {
                 configuration.setDiskExpiryThreadIntervalSeconds(conf.diskExpiryThreadIntervalSeconds());
