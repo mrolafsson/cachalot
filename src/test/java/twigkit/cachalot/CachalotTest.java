@@ -71,10 +71,10 @@ public class CachalotTest {
         CachedMethods mct = injector.getInstance(CachedMethods.class);
 
         String arg = "arg";
-        assertEquals("Return value for single argument is incorrect (invocation)", mct.getStringFileConfigured(arg), "single-argument");
+        assertEquals("Return value for single argument configured via ehcache.xml (invocation)", mct.getStringFileConfigured(arg), "single-argument");
         assertEquals("Invocation count not incremented even though method should have been invoked", 1, mct.getInvocationCount());
 
-        assertEquals("Return value for single argument is incorrect (cached)", mct.getStringFileConfigured(arg), "single-argument");
+        assertEquals("Return value for single argument configured via ehcache.xml is incorrect (cached)", mct.getStringFileConfigured(arg), "single-argument");
         assertEquals("Invocation count changed even though method should not have been invoked", 1, mct.getInvocationCount());
     }
 
@@ -83,10 +83,10 @@ public class CachalotTest {
         CachedMethods mct = injector.getInstance(CachedMethods.class);
 
         String arg = "arg";
-        assertEquals("Return value for single argument is incorrect (invocation)", mct.getStringDefaultNoName(arg), "single-argument");
+        assertEquals("Return value for single argument is incorrect, no name configured (invocation)", mct.getStringDefaultNoName(arg), "single-argument");
         assertEquals("Invocation count not incremented even though method should have been invoked", 1, mct.getInvocationCount());
 
-        assertEquals("Return value for single argument is incorrect (cached)", mct.getStringDefaultNoName(arg), "single-argument");
+        assertEquals("Return value for single argument is incorrect, no name configured (cached)", mct.getStringDefaultNoName(arg), "single-argument");
         assertEquals("Invocation count changed even though method should not have been invoked", 1, mct.getInvocationCount());
     }
 
@@ -95,10 +95,10 @@ public class CachalotTest {
         CachedMethods mct = injector.getInstance(CachedMethods.class);
 
         String arg = "arg";
-        assertEquals("Return value for single argument is incorrect (invocation)", mct.getNonSerializable(1), new CachedMethods.NonSerializable(1));
+        assertEquals("Non-serializable return value for single argument is incorrect (invocation)", mct.getNonSerializable(1), new CachedMethods.NonSerializable(1));
         assertEquals("Invocation count not incremented even though method should have been invoked", 1, mct.getInvocationCount());
 
-        assertEquals("Return value for single argument is incorrect (cached)", mct.getNonSerializable(1), new CachedMethods.NonSerializable(1));
+        assertEquals("Non-serializable return value for single argument is incorrect (cached)", mct.getNonSerializable(1), new CachedMethods.NonSerializable(1));
         assertEquals("Invocation count changed even though method should not have been invoked", 1, mct.getInvocationCount());
     }
 
