@@ -49,7 +49,7 @@
         <repository>
             <id>repo.twigkit.com</id>
             <name>TwigKit</name>
-            <url>http://repo.twigkit.com/twigkit</url>
+            <url>http://twigkit.artifactoryonline.com/twigkit/</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
@@ -67,12 +67,12 @@
         <repository>
             <id>repo.twigkit.com-releases</id>
             <name>TwigKit Releases</name>
-            <url>http://repo.twigkit.com/release</url>
+            <url>http://twigkit.artifactoryonline.com/twigkit/release</url>
         </repository>
         <snapshotRepository>
             <id>repo.twigkit.com-snapshots</id>
             <name>TwigKit Snapshots</name>
-            <url>http://repo.twigkit.com/snapshot</url>
+            <url>http://twigkit.artifactoryonline.com/twigkit/snapshot</url>
             <uniqueVersion>true</uniqueVersion>
         </snapshotRepository>
     </distributionManagement>
