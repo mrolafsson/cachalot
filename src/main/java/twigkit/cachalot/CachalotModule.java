@@ -18,8 +18,11 @@ package twigkit.cachalot;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.matcher.Matchers;
 import net.sf.ehcache.CacheManager;
+
+import java.net.URL;
 
 /**
  * The Cachalot module instantiates the cache, and decorates all methods annotated
@@ -27,18 +30,26 @@ import net.sf.ehcache.CacheManager;
  *
  * @author mr.olafsson
  */
+@Singleton
 public class CachalotModule extends AbstractModule {
 
-	@Override
-	protected void configure() {
-		CacheInterceptor ci = new CacheInterceptor();
-		requestInjection(ci);
-		
-		bindInterceptor(Matchers.any(), Matchers.annotatedWith(Cache.class), ci);
-	}
+    private final CacheManager cacheManager;
 
-	@Provides
-	public CacheManager getCacheManager() {
-		return CacheManager.getInstance();
-	}
+    public CachalotModule() {
+        cacheManager = CacheManager.newInstance();
+    }
+
+    @Override
+	protected void configure() {
+        CacheInterceptor ci = new CacheInterceptor();
+        requestInjection(ci);
+
+        bindInterceptor(Matchers.any(), Matchers.annotatedWith(Cache.class), ci);
+    }
+
+    @Provides
+    @Cachalot
+    public CacheManager getCacheManager() {
+        return cacheManager;
+    }
 }

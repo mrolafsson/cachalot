@@ -220,7 +220,7 @@ public class CacheInterceptor implements MethodInterceptor {
     }
 
     @Inject
-    public void setCacheManager(CacheManager cacheManager) {
+    public void setCacheManager(@Cachalot CacheManager cacheManager) {
         this.cacheManager = cacheManager;
     }
 }

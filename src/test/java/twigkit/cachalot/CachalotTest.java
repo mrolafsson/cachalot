@@ -18,6 +18,7 @@ package twigkit.cachalot;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
 
@@ -45,7 +46,7 @@ public class CachalotTest {
         Module testModule = Modules.override(new CachalotModule()).with(new CachalotTestModule());
         injector = Guice.createInjector(testModule);
 
-        cacheManager = injector.getInstance(CachalotModule.class).getCacheManager();
+        cacheManager = injector.getInstance(Key.get(CacheManager.class, Cachalot.class));
     }
 
     @After

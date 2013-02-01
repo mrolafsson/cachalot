@@ -3,4 +3,6 @@ target/
 *.iml
 *.iws
 *.ipr
-
+.idea
+.clover
+*.log
