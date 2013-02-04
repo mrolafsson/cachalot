@@ -39,6 +39,14 @@ public class CachalotModule extends AbstractModule {
         cacheManager = CacheManager.newInstance();
     }
 
+    public CachalotModule(String cacheName) {
+        cacheManager = CacheManager.newInstance(cacheName);
+    }
+
+    public CachalotModule(URL cacheURL) {
+        cacheManager = CacheManager.newInstance(cacheURL);
+    }
+
     @Override
 	protected void configure() {
         CacheInterceptor ci = new CacheInterceptor();
